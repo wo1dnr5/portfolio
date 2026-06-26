@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이재욱 — 데이터·투자 분석 포트폴리오</title>
+  <style>
+    /* ─── Base ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0d1b2a;
+      --navy2:  #1b2d42;
+      --blue:   #1e6fff;
+      --cyan:   #00c2cb;
+      --gold:   #f5c842;
+      --green:  #22c55e;
+      --red:    #ef4444;
+      --gray:   #64748b;
+      --light:  #f1f5f9;
+      --white:  #ffffff;
+      --card-bg:#162032;
+      --border: rgba(255,255,255,0.07);
+    }
+
+    html { font-size: 15px; }
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+      background: var(--navy);
+      color: #e2e8f0;
+      line-height: 1.7;
+    }
+
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ─── Layout ────────────────────────────────────────────── */
+    .page { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+    section { padding: 3.5rem 0; }
+
+    /* ─── Cover ─────────────────────────────────────────────── */
+    #cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: linear-gradient(135deg, #0d1b2a 0%, #0a2a4a 60%, #003366 100%);
+      border-bottom: 2px solid var(--blue);
+      padding: 5rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 40%, rgba(30,111,255,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(0,194,203,0.10) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .cover-inner { position: relative; z-index: 1; }
+
+    .cover-tag {
+      display: inline-block;
+      background: rgba(30,111,255,0.2);
+      border: 1px solid var(--blue);
+      color: var(--cyan);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 2rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .cover-name {
+      font-size: 3.2rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 0.6rem;
+    }
+
+    .cover-title {
+      font-size: 1.3rem;
+      color: var(--cyan);
+      font-weight: 600;
+      margin-bottom: 1.6rem;
+    }
+
+    .cover-desc {
+      font-size: 1.05rem;
+      color: #94a3b8;
+      max-width: 560px;
+      margin-bottom: 2.8rem;
+      line-height: 1.8;
+    }
+
+    .cover-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+
+    .cover-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+
+    .cover-contact-item .icon { color: var(--cyan); font-size: 1rem; }
+
+    /* ─── Cover flow diagram ─────────────────────────────────── */
+    .cover-flow {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.8rem;
+      flex-wrap: wrap;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 0.8rem;
+      padding: 0.8rem 1.2rem;
+    }
+
+    .flow-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .flow-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+
+    .flow-label span {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: #64748b;
+      margin-top: 0.1rem;
+    }
+
+    .flow-arrow {
+      font-size: 1.3rem;
+      color: var(--blue);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .cover-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+      margin-top: 3.5rem;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 0.9rem;
+      padding: 1.2rem 1rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--cyan);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 0.2rem;
+    }
+
+    /* ─── Section titles ────────────────────────────────────── */
+    .section-header {
+      margin-bottom: 2.4rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .section-divider {
+      width: 3rem;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      border-radius: 2px;
+      margin-top: 0.7rem;
+    }
+
+    /* ─── Project Card ───────────────────────────────────────── */
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.1rem;
+      margin-bottom: 3rem;
+      overflow: hidden;
+      page-break-inside: avoid;
+    }
+
+    .project-header {
+      padding: 1.8rem 2rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+    }
+
+    .project-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .project-icon.blue  { background: rgba(30,111,255,0.18); }
+    .project-icon.cyan  { background: rgba(0,194,203,0.18); }
+    .project-icon.gold  { background: rgba(245,200,66,0.18); }
+    .project-icon.green { background: rgba(34,197,94,0.18); }
+
+    .project-num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0.2rem;
+    }
+
+    .project-name {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+
+    .project-subtitle {
+      font-size: 0.88rem;
+      color: #64748b;
+    }
+
+    .project-body { padding: 1.8rem 2rem; }
+
+    .project-desc {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin-bottom: 1.6rem;
+      line-height: 1.8;
+    }
+
+    /* ─── Two-column layout inside project ─────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 0.7rem;
+      padding: 1.1rem 1.2rem;
+    }
+
+    .box-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.7rem;
+    }
+
+    .box ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .box li {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .box li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--cyan);
+      font-size: 0.7rem;
+      top: 0.1em;
+    }
+
+    /* ─── Tech badges ────────────────────────────────────────── */
+    .tech-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.22rem 0.7rem;
+      border-radius: 0.35rem;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-blue   { background: rgba(30,111,255,0.18); color: #93c5fd; border: 1px solid rgba(30,111,255,0.35); }
+    .badge-cyan   { background: rgba(0,194,203,0.15); color: #67e8f9; border: 1px solid rgba(0,194,203,0.3); }
+    .badge-gold   { background: rgba(245,200,66,0.15); color: #fde68a; border: 1px solid rgba(245,200,66,0.3); }
+    .badge-green  { background: rgba(34,197,94,0.15); color: #86efac; border: 1px solid rgba(34,197,94,0.3); }
+    .badge-gray   { background: rgba(100,116,139,0.2); color: #94a3b8; border: 1px solid rgba(100,116,139,0.3); }
+    .badge-purple { background: rgba(139,92,246,0.18); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.35); }
+    .badge-pink   { background: rgba(236,72,153,0.15); color: #f9a8d4; border: 1px solid rgba(236,72,153,0.3); }
+
+    /* ─── Architecture flow ─────────────────────────────────── */
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin: 1rem 0 0;
+    }
+
+    .arch-node {
+      background: rgba(30,111,255,0.12);
+      border: 1px solid rgba(30,111,255,0.3);
+      border-radius: 0.4rem;
+      padding: 0.28rem 0.7rem;
+      font-size: 0.78rem;
+      color: #93c5fd;
+    }
+
+    .arch-arrow {
+      color: #334155;
+      font-size: 1rem;
+    }
+
+    /* ─── Metric chips ───────────────────────────────────────── */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .metric-chip {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 0.7rem;
+      padding: 0.9rem 1rem;
+      text-align: center;
+    }
+
+    .metric-val {
+      display: block;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+
+    .metric-key {
+      font-size: 0.72rem;
+      color: #475569;
+      margin-top: 0.15rem;
+    }
+
+    /* ─── Table ──────────────────────────────────────────────── */
+    .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 0.6rem;
+    }
+
+    .mini-table th {
+      text-align: left;
+      padding: 0.45rem 0.7rem;
+      background: rgba(30,111,255,0.1);
+      color: #60a5fa;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mini-table td {
+      padding: 0.45rem 0.7rem;
+      border-bottom: 1px solid var(--border);
+      color: #cbd5e1;
+      vertical-align: top;
+    }
+
+    .mini-table tr:last-child td { border-bottom: none; }
+
+    .dot-green { color: var(--green); }
+    .dot-cyan  { color: var(--cyan); }
+    .dot-gold  { color: var(--gold); }
+
+    /* ─── Skills section ─────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+    }
+
+    .skill-group {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 0.9rem;
+      padding: 1.3rem 1.4rem;
+    }
+
+    .skill-group-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 1rem;
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.7rem;
+    }
+
+    .skill-name {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+    }
+
+    .skill-bar-wrap {
+      width: 80px;
+      height: 4px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .skill-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      border-radius: 2px;
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    #footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      text-align: center;
+      color: #334155;
+      font-size: 0.8rem;
+    }
+
+    /* ─── Screenshot frame ──────────────────────────────────── */
+    .screenshot-wrap {
+      margin: 0 2rem 1.8rem;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0a121d;
+      position: relative;
+    }
+
+    .screenshot-bar {
+      background: #1e2d3e;
+      padding: 0.55rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .screenshot-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red-win   { background: #ff5f57; }
+    .dot-yel-win   { background: #febc2e; }
+    .dot-grn-win   { background: #28c840; }
+
+    .screenshot-url {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border-radius: 4px;
+      padding: 0.18rem 0.7rem;
+      font-size: 0.72rem;
+      color: #64748b;
+      font-family: 'SF Mono', 'Consolas', monospace;
+      margin: 0 0.5rem;
+    }
+
+    .screenshot-caption {
+      font-size: 0.72rem;
+      color: #334155;
+      text-align: right;
+      padding: 0.4rem 1rem;
+      background: #0a121d;
+    }
+
+    .screenshot-img {
+      width: 100%;
+      display: block;
+      max-height: 460px;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    /* ─── Print / PDF hints ──────────────────────────────────── */
+    @media print {
+      body { background: #fff; color: #111; }
+      #cover { min-height: auto; page-break-after: always; }
+      .project-card { page-break-inside: avoid; }
+      section { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     COVER
+════════════════════════════════════════ -->
+<section id="cover">
+  <div class="page cover-inner">
+    <div class="cover-tag">AI-Augmented Investment Research · Portfolio 2026</div>
+    <h1 class="cover-name">이재욱</h1>
+    <p class="cover-title">인사이트를 AI로 현실에 구현하는 투자 분석가</p>
+    <p class="cover-desc">
+      저는 전통적인 의미의 개발자나 데이터 사이언티스트가 아닙니다.<br>
+      투자 시장을 바라보는 <strong style="color:#e2e8f0;">저만의 시각과 아이디어</strong>가 출발점이고,
+      AI를 도구로 삼아 그 생각을 <strong style="color:#e2e8f0;">실제로 동작하는 시스템</strong>으로 만들어냅니다.<br><br>
+      "어떤 정보를 어떻게 보고 싶다", "이런 전략이 통할 것 같다" —
+      그 질문에서 시작해 AI와 함께 직접 설계하고, 검증하고, 운영합니다.
+    </p>
+
+    <div class="cover-flow">
+      <div class="flow-step">
+        <div class="flow-icon">💡</div>
+        <div class="flow-label">투자 인사이트<br><span>아이디어 · 가설 설정</span></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">🤖</div>
+        <div class="flow-label">AI 협업 설계<br><span>Claude · 구조화 · 구현</span></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">⚙️</div>
+        <div class="flow-label">실제 시스템 구동<br><span>검증 · 운영 · 개선</span></div>
+      </div>
+    </div>
+
+    <div class="cover-contact" style="margin-top:2rem;">
+      <span class="cover-contact-item"><span class="icon">✉</span> dlwodnr1115@gmail.com</span>
+      <span class="cover-contact-item"><span class="icon">🤖</span> AI 협업 기반 구현</span>
+      <span class="cover-contact-item"><span class="icon">📅</span> 2026년 6월 기준</span>
+    </div>
+
+    <div class="cover-stats">
+      <div class="stat-card">
+        <span class="stat-num">4</span>
+        <div class="stat-label">직접 기획·구현한 프로젝트</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">5+</span>
+        <div class="stat-label">커버 금융 시장 (국가)</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">1,200+</span>
+        <div class="stat-label">스크리닝 종목 수</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">아이디어<br>→ 실현</span>
+        <div class="stat-label">AI로 직접 구동하는 시스템</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     PROJECT 1 — AUTO-NEWS
+════════════════════════════════════════ -->
+<section>
+  <div class="page">
+    <div class="section-header">
+      <div class="section-tag">Projects</div>
+      <h2 class="section-title">프로젝트 상세</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- ── Project 1 ── -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon blue">📊</div>
+        <div>
+          <div class="project-num">Project 01</div>
+          <div class="project-name">Auto-News — 실시간 투자 대시보드</div>
+          <div class="project-subtitle">주가·환율·코인·원자재·뉴스·경제지표를 한 화면에서 실시간 모니터링</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">
+          전 세계 금융 시장을 한눈에 파악하기 위한 실시간 경제 대시보드입니다.
+          FastAPI 백엔드가 여러 데이터 소스에서 정보를 수집하고, WebSocket으로 브라우저에 자동 푸시합니다.
+          Docker 컨테이너로 패키징하여 서버 어디서나 즉시 배포 가능하며, API 키 없이도 대부분의 기능이 동작합니다.
+        </p>
+
+        <div class="metrics-row">
+          <div class="metric-chip">
+            <span class="metric-val">5초</span>
+            <div class="metric-key">코인 가격 갱신</div>
+          </div>
+          <div class="metric-chip">
+            <span class="metric-val">10초</span>
+            <div class="metric-key">주가·환율·원자재</div>
+          </div>
+          <div class="metric-chip">
+            <span class="metric-val">8+</span>
+            <div class="metric-key">글로벌 주가 지수</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="box">
+            <div class="box-title">주요 기능</div>
+            <ul>
+              <li>KOSPI·NASDAQ·S&P500 등 8개 주가 지수 실시간</li>
+              <li>USD/KRW·EUR/USD 등 4개 환율</li>
+              <li>BTC·ETH·SOL 등 6개 코인 (Binance 무료 API)</li>
+              <li>공포·탐욕 지수 (Alternative.me)</li>
+              <li>WSJ·Bloomberg·CNBC·한국경제 RSS 뉴스</li>
+              <li>미·한 경제지표 (CPI·PCE·기준금리·GDP)</li>
+              <li>거래량 상위 종목 4개국 TOP 5</li>
+            </ul>
+          </div>
+          <div class="box">
+            <div class="box-title">아키텍처</div>
+            <ul>
+              <li>FastAPI + Uvicorn 비동기 서버</li>
+              <li>WebSocket 실시간 브라우저 푸시</li>
+              <li>BackgroundTask 주기별 갱신 루프</li>
+              <li>Docker 단일 컨테이너 배포</li>
+              <li>REST API 8개 엔드포인트 제공</li>
+              <li>FRED API 선택적 연동 (경제지표)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="box" style="margin-bottom:1.2rem;">
+          <div class="box-title">데이터 흐름</div>
+          <div class="arch-flow">
+            <span class="arch-node">yfinance</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">Binance API</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">RSS 피드</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">BLS · FRED</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">data_fetcher.py</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">FastAPI WebSocket</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">브라우저 대시보드</span>
+          </div>
+        </div>
+
+        <div class="tech-row">
+          <span class="badge badge-blue">Python 3.12</span>
+          <span class="badge badge-blue">FastAPI</span>
+          <span class="badge badge-cyan">WebSocket</span>
+          <span class="badge badge-gray">yfinance</span>
+          <span class="badge badge-gold">Docker</span>
+          <span class="badge badge-gray">Jinja2</span>
+          <span class="badge badge-green">Binance API</span>
+          <span class="badge badge-cyan">FRED API</span>
+          <span class="badge badge-gray">RSS</span>
+          <span class="badge badge-purple">BLS API</span>
+        </div>
+      </div>
+
+      <div class="screenshot-wrap">
+        <div class="screenshot-bar">
+          <span class="screenshot-dot dot-red-win"></span>
+          <span class="screenshot-dot dot-yel-win"></span>
+          <span class="screenshot-dot dot-grn-win"></span>
+          <span class="screenshot-url">http://localhost:8000</span>
+        </div>
+        <img class="screenshot-img" src="images/auto-news.png" alt="Auto-News 실시간 투자 대시보드 스크린샷" />
+        <div class="screenshot-caption">실제 실행 화면 · 2026-06-26 캡쳐</div>
+      </div>
+    </div>
+
+    <!-- ── Project 2 ── -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon gold">⚡</div>
+        <div>
+          <div class="project-num">Project 02</div>
+          <div class="project-name">Bitget Trade — 암호화폐 자동매매 시스템</div>
+          <div class="project-subtitle">멀티 타임프레임 복합 신호 기반 선물 자동매매 봇 + 백테스트 + 파라미터 최적화</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">
+          Bitget USDT-M 퍼페추얼 스왑 거래소에서 동작하는 완전 자동화 선물 매매 시스템입니다.
+          RSI·MACD·일목균형표·볼린저밴드·ADX 5개 지표의 멀티 타임프레임 신호를 가중 합산하여
+          진입 신뢰도를 계산합니다. ATR 기반 동적 손절/익절로 시장 변동성에 적응하며,
+          288개 파라미터 조합 그리드 서치로 최적 파라미터를 도출했습니다.
+        </p>
+
+        <div class="metrics-row">
+          <div class="metric-chip">
+            <span class="metric-val">5종목</span>
+            <div class="metric-key">BTC·ETH·SOL·XRP·DOGE</div>
+          </div>
+          <div class="metric-chip">
+            <span class="metric-val">5배</span>
+            <div class="metric-key">레버리지 (격리 마진)</div>
+          </div>
+          <div class="metric-chip">
+            <span class="metric-val">288</span>
+            <div class="metric-key">최적화 파라미터 조합</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="box">
+            <div class="box-title">신호 생성 전략</div>
+            <ul>
+              <li>RSI 14 — 과매수/과매도 판단</li>
+              <li>MACD (12·26·9) — 추세 전환 감지</li>
+              <li>일목균형표 — 구름대 돌파 확인</li>
+              <li>볼린저밴드 — 변동성 돌파 탐지</li>
+              <li>ADX 추세 필터 ≥ 35 — 횡보 구간 차단</li>
+              <li>거래량 승수 1.5× — 신호 강도 보정</li>
+            </ul>
+          </div>
+          <div class="box">
+            <div class="box-title">리스크 관리</div>
+            <ul>
+              <li>손절: ATR(14, 1h) × 2.0 (동적)</li>
+              <li>익절: 손절폭 × RR 1:1</li>
+              <li>종목당 증거금 잔고의 10%</li>
+              <li>신뢰도 임계치 70% 이상만 진입</li>
+              <li>Telegram 실시간 체결 알림</li>
+              <li>샌드박스(데모) 모드 지원</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="box" style="margin-bottom:1.2rem;">
+          <div class="box-title">멀티 타임프레임 가중치</div>
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>타임프레임</th>
+                <th>가중치</th>
+                <th>역할</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1분봉</td><td>1</td><td>단기 진입 타이밍</td></tr>
+              <tr><td>10분봉</td><td>2</td><td>중단기 신호 확인</td></tr>
+              <tr><td>30분봉</td><td>3</td><td>추세 방향 파악</td></tr>
+              <tr><td class="dot-cyan">1시간봉</td><td>4</td><td>주요 추세 판단 (최고 가중치)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="box" style="margin-bottom:1.2rem;">
+          <div class="box-title">파라미터 최적화 프레임워크</div>
+          <div class="arch-flow">
+            <span class="arch-node">30일 1분봉 수집</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">TF 리샘플링</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">지표 사전 계산</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">288조합 그리드 서치</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">승률×손익비 정렬</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">최적 파라미터 적용</span>
+          </div>
+        </div>
+
+        <div class="tech-row">
+          <span class="badge badge-blue">Python 3</span>
+          <span class="badge badge-gold">ccxt</span>
+          <span class="badge badge-cyan">pandas</span>
+          <span class="badge badge-cyan">numpy</span>
+          <span class="badge badge-gray">Bitget API</span>
+          <span class="badge badge-green">Telegram Bot</span>
+          <span class="badge badge-purple">ATR 동적 손절</span>
+          <span class="badge badge-gold">Grid Search 최적화</span>
+          <span class="badge badge-gray">Docker</span>
+        </div>
+      </div>
+
+      <div class="screenshot-wrap">
+        <div class="screenshot-bar">
+          <span class="screenshot-dot dot-red-win"></span>
+          <span class="screenshot-dot dot-yel-win"></span>
+          <span class="screenshot-dot dot-grn-win"></span>
+          <span class="screenshot-url">BTC/USDT 30일 백테스트 결과 — backtest_result.csv</span>
+        </div>
+        <img class="screenshot-img" src="images/bitget-trade.png" alt="Bitget Trade 백테스트 결과 스크린샷" />
+        <div class="screenshot-caption">실제 백테스트 결과 데이터 · 2026-03 ~ 04 기간</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     PROJECT 3 & 4
+════════════════════════════════════════ -->
+<section style="padding-top:0;">
+  <div class="page">
+
+    <!-- ── Project 3 ── -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon cyan">🔍</div>
+        <div>
+          <div class="project-num">Project 03</div>
+          <div class="project-name">Undervalued Stock — 글로벌 저평가 주식 스크리너</div>
+          <div class="project-subtitle">5개국 1,200+ 종목에서 멀티팩터 점수로 저평가 종목을 실시간 탐색하는 풀스택 웹앱</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">
+          한국·미국·중국·일본 주요 지수 전 종목을 대상으로 PER·PBR·ROE·RSI·52주 고점 대비 5가지 지표를
+          가중 합산하여 저평가 점수를 산출합니다. React + TypeScript 프론트엔드에서 슬라이더 조정 즉시
+          클라이언트 사이드 필터링이 적용되며, TradingView 차트와 연동됩니다.
+          10분 TTL 파일 캐싱으로 yfinance rate limit을 방어하고, 차단 시 이전 캐시로 자동 폴백합니다.
+        </p>
+
+        <div class="metrics-row">
+          <div class="metric-chip">
+            <span class="metric-val">1,200+</span>
+            <div class="metric-key">커버 종목 수</div>
+          </div>
+          <div class="metric-chip">
+            <span class="metric-val">5개국</span>
+            <div class="metric-key">한·미·중·일 시장</div>
+          </div>
+          <div class="metric-chip">
+            <span class="metric-val">즉시</span>
+            <div class="metric-key">클라이언트 필터링</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="box">
+            <div class="box-title">저평가 점수 가중치</div>
+            <table class="mini-table">
+              <thead><tr><th>지표</th><th>가중치</th><th>방향</th></tr></thead>
+              <tbody>
+                <tr><td>PER</td><td>25%</td><td class="dot-cyan">낮을수록↑</td></tr>
+                <tr><td>PBR</td><td>20%</td><td class="dot-cyan">낮을수록↑</td></tr>
+                <tr><td>ROE</td><td>20%</td><td class="dot-green">높을수록↑</td></tr>
+                <tr><td>RSI</td><td>20%</td><td class="dot-cyan">낮을수록↑</td></tr>
+                <tr><td>52주 고점대비</td><td>15%</td><td class="dot-cyan">하락폭 클수록↑</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="box">
+            <div class="box-title">커버리지</div>
+            <table class="mini-table">
+              <thead><tr><th>시장</th><th>지수</th><th>종목 수</th></tr></thead>
+              <tbody>
+                <tr><td>🇰🇷 한국</td><td>KOSPI 200</td><td>~170개</td></tr>
+                <tr><td>🇺🇸 미국</td><td>S&P 500</td><td>~500개</td></tr>
+                <tr><td>🇺🇸 미국</td><td>NASDAQ 100</td><td>~100개</td></tr>
+                <tr><td>🇨🇳 중국</td><td>CSI 300</td><td>~300개</td></tr>
+                <tr><td>🇯🇵 일본</td><td>Nikkei 225</td><td>~190개</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="box" style="margin-bottom:1.2rem;">
+          <div class="box-title">시스템 아키텍처</div>
+          <div class="arch-flow">
+            <span class="arch-node">Wikipedia 스크래핑</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">yfinance 수집</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">pickle 캐싱 (10분 TTL)</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">FastAPI /api/stocks/{country}</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">useStocks 훅</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">screener.ts 점수계산</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">StockTable 렌더링</span>
+          </div>
+        </div>
+
+        <div class="tech-row">
+          <span class="badge badge-blue">FastAPI</span>
+          <span class="badge badge-cyan">React 18</span>
+          <span class="badge badge-cyan">TypeScript</span>
+          <span class="badge badge-gold">Vite</span>
+          <span class="badge badge-green">Tailwind CSS</span>
+          <span class="badge badge-gray">yfinance</span>
+          <span class="badge badge-gray">pandas</span>
+          <span class="badge badge-purple">numpy</span>
+          <span class="badge badge-gray">pickle 캐싱</span>
+          <span class="badge badge-blue">TradingView 연동</span>
+        </div>
+      </div>
+
+      <div class="screenshot-wrap">
+        <div class="screenshot-bar">
+          <span class="screenshot-dot dot-red-win"></span>
+          <span class="screenshot-dot dot-yel-win"></span>
+          <span class="screenshot-dot dot-grn-win"></span>
+          <span class="screenshot-url">http://localhost:5174</span>
+        </div>
+        <img class="screenshot-img" src="images/undervalued-stock.png" alt="Undervalued Stock 저평가 주식 스크리너 스크린샷" />
+        <div class="screenshot-caption">실제 실행 화면 · 2026-06-26 캡쳐</div>
+      </div>
+    </div>
+
+    <!-- ── Project 4 ── -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon green">📬</div>
+        <div>
+          <div class="project-num">Project 04</div>
+          <div class="project-name">Auto News — AI 뉴스 자동화 시스템</div>
+          <div class="project-subtitle">Claude AI + Tavily 검색으로 AI 주간 동향 브리프를 자동 생성·이메일 발송</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">
+          Tavily 검색 엔진으로 최신 AI 뉴스를 수집하고, Claude claude-sonnet-4-6 모델로 HTML 이메일 브리프를
+          자동 생성하여 발송하는 뉴스 자동화 파이프라인입니다.
+          schedule 라이브러리로 주기적 실행을 설정하며, 수집·요약·발송 전 과정을 무인 자동화합니다.
+          이메일은 인라인 CSS가 적용된 모바일 친화적 HTML 형식으로 전송됩니다.
+        </p>
+
+        <div class="two-col">
+          <div class="box">
+            <div class="box-title">파이프라인 단계</div>
+            <ul>
+              <li>Tavily Advanced 검색 (7일 이내 AI 뉴스 5건)</li>
+              <li>기사 본문 600자 추출 및 구조화</li>
+              <li>Claude claude-sonnet-4-6 HTML 이메일 생성 (4096 토큰)</li>
+              <li>카드형 레이아웃 + 트렌드 총평 포함</li>
+              <li>Gmail SMTP 인라인 HTML 발송</li>
+              <li>schedule 라이브러리로 주기 자동화</li>
+            </ul>
+          </div>
+          <div class="box">
+            <div class="box-title">이메일 구성 요소</div>
+            <ul>
+              <li>브리프 제목 + 날짜 헤더</li>
+              <li>기사별 카드 (제목·2~3줄 요약·원문 링크)</li>
+              <li>이번 주 AI 트렌드 총평 섹션</li>
+              <li>인라인 CSS — 모든 이메일 클라이언트 호환</li>
+              <li>최대 너비 600px 모바일 대응</li>
+              <li>포인트 컬러 #4F46E5 인디고 테마</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="box" style="margin-bottom:1.2rem;">
+          <div class="box-title">자동화 흐름</div>
+          <div class="arch-flow">
+            <span class="arch-node">schedule 트리거</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">Tavily 검색</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">기사 텍스트 추출</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">Claude API 요약</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">HTML 이메일 생성</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">Gmail SMTP 발송</span>
+          </div>
+        </div>
+
+        <div class="tech-row">
+          <span class="badge badge-purple">Claude claude-sonnet-4-6</span>
+          <span class="badge badge-blue">Anthropic SDK</span>
+          <span class="badge badge-cyan">Tavily API</span>
+          <span class="badge badge-gray">smtplib (Gmail)</span>
+          <span class="badge badge-green">schedule</span>
+          <span class="badge badge-blue">Python 3</span>
+          <span class="badge badge-gold">python-dotenv</span>
+          <span class="badge badge-gray">HTML 이메일</span>
+        </div>
+      </div>
+
+      <div class="screenshot-wrap">
+        <div class="screenshot-bar">
+          <span class="screenshot-dot dot-red-win"></span>
+          <span class="screenshot-dot dot-yel-win"></span>
+          <span class="screenshot-dot dot-grn-win"></span>
+          <span class="screenshot-url">Claude API 자동 생성 HTML 이메일 출력물</span>
+        </div>
+        <img class="screenshot-img" src="images/auto-news-email.png" alt="Auto News AI 이메일 브리프 스크린샷" />
+        <div class="screenshot-caption">Claude claude-sonnet-4-6 + Tavily 자동 생성 이메일 예시</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     SKILLS
+════════════════════════════════════════ -->
+<section>
+  <div class="page">
+    <div class="section-header">
+      <div class="section-tag">Skills</div>
+      <h2 class="section-title">기술 스택</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">백엔드 / 데이터</div>
+        <div class="skill-item">
+          <span class="skill-name">Python</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:95%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">FastAPI</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">pandas / numpy</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">WebSocket</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Docker</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">금융 / 퀀트</div>
+        <div class="skill-item">
+          <span class="skill-name">기술적 지표 (RSI·MACD·ADX)</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">ccxt (거래소 API)</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">백테스팅 / 최적화</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">yfinance 데이터 수집</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">퀀트 스크리닝</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">프론트엔드 / AI</div>
+        <div class="skill-item">
+          <span class="skill-name">React / TypeScript</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Tailwind CSS</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Claude API (Anthropic)</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Tavily 검색 API</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">REST API 설계</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary table -->
+    <div style="margin-top:2.5rem;">
+      <div class="box">
+        <div class="box-title">프로젝트별 기술 스택 한눈에 보기</div>
+        <table class="mini-table" style="margin-top:0.4rem;">
+          <thead>
+            <tr>
+              <th>프로젝트</th>
+              <th>핵심 기술</th>
+              <th>데이터 소스</th>
+              <th>특징</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="dot-cyan">Auto-News 대시보드</td>
+              <td>FastAPI · WebSocket</td>
+              <td>yfinance · Binance · RSS · FRED</td>
+              <td>5초 실시간 푸시 · Docker</td>
+            </tr>
+            <tr>
+              <td class="dot-gold">Bitget Trade</td>
+              <td>ccxt · pandas · numpy</td>
+              <td>Bitget API (선물 OHLCV)</td>
+              <td>288조합 최적화 · ATR 동적 SL</td>
+            </tr>
+            <tr>
+              <td class="dot-cyan">Undervalued Stock</td>
+              <td>FastAPI · React · TypeScript</td>
+              <td>yfinance · Wikipedia</td>
+              <td>멀티팩터 점수 · 클라이언트 필터</td>
+            </tr>
+            <tr>
+              <td class="dot-green">Auto News AI</td>
+              <td>Claude API · Tavily</td>
+              <td>Tavily 검색 (7일 이내)</td>
+              <td>AI 요약 자동화 · HTML 이메일</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer id="footer">
+  <div class="page">
+    <p>이재욱 · dlwodnr1115@gmail.com · 2026년 6월</p>
+    <p style="margin-top:0.4rem;">Data & Investment Analytics Portfolio — 본 포트폴리오의 모든 프로젝트는 직접 설계·개발한 결과물입니다.</p>
+  </div>
+</footer>
+
+</body>
+</html>
