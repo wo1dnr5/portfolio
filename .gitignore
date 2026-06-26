@@ -1,0 +1,6 @@
+capture.py
+export_pdf.py
+portfolio.pdf
+canva_content.md
+__pycache__/
+*.pyc
