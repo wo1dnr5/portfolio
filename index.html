@@ -250,10 +250,12 @@
       flex-shrink: 0;
     }
 
-    .project-icon.blue  { background: rgba(30,111,255,0.18); }
-    .project-icon.cyan  { background: rgba(0,194,203,0.18); }
-    .project-icon.gold  { background: rgba(245,200,66,0.18); }
-    .project-icon.green { background: rgba(34,197,94,0.18); }
+    .project-icon.blue   { background: rgba(30,111,255,0.18); }
+    .project-icon.cyan   { background: rgba(0,194,203,0.18); }
+    .project-icon.gold   { background: rgba(245,200,66,0.18); }
+    .project-icon.green  { background: rgba(34,197,94,0.18); }
+    .project-icon.purple { background: rgba(139,92,246,0.18); }
+    .project-icon.pink   { background: rgba(236,72,153,0.18); }
 
     .project-num {
       font-size: 0.72rem;
@@ -657,12 +659,12 @@
     <div class="cover-contact" style="margin-top:2rem;">
       <span class="cover-contact-item"><span class="icon">✉</span> dlwodnr1115@gmail.com</span>
       <span class="cover-contact-item"><span class="icon">🤖</span> AI 협업 기반 구현</span>
-      <span class="cover-contact-item"><span class="icon">📅</span> 2026년 6월 기준</span>
+      <span class="cover-contact-item"><span class="icon">📅</span> 2026년 7월 기준</span>
     </div>
 
     <div class="cover-stats">
       <div class="stat-card">
-        <span class="stat-num">4</span>
+        <span class="stat-num">6</span>
         <div class="stat-label">직접 기획·구현한 프로젝트</div>
       </div>
       <div class="stat-card">
@@ -1119,6 +1121,193 @@
 
 
 <!-- ══════════════════════════════════════
+     PROJECT 5 & 6
+════════════════════════════════════════ -->
+<section style="padding-top:0;">
+  <div class="page">
+
+    <!-- ── Project 5 ── -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon purple">📈</div>
+        <div>
+          <div class="project-num">Project 05</div>
+          <div class="project-name">재무제표 분석 대시보드 — DART 공시 자동 분석</div>
+          <div class="project-subtitle">회사명만 입력하면 재무비율·성장성·분기 실적을 자동 계산해 인터랙티브 차트로 보여주는 Streamlit 웹앱</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">
+          DART(금융감독원 전자공시)에서 상장기업 재무제표를 수집해 안정성·수익성·활동성·성장성 지표와
+          분기별 실적을 자동 산출하는 재무 분석 대시보드입니다. 데이터 수집 → 분석 엔진 → 시각화의
+          3계층 구조로 설계했으며, 한 번 받은 데이터는 parquet으로 캐싱해 재조회 시 API 호출 없이 즉시 로딩됩니다.
+          Streamlit Community Cloud로 배포해 웹에서 바로 사용할 수 있습니다.
+        </p>
+
+        <div class="metrics-row">
+          <div class="metric-chip">
+            <span class="metric-val">14+</span>
+            <div class="metric-key">자동 계산 재무지표</div>
+          </div>
+          <div class="metric-chip">
+            <span class="metric-val">12분기</span>
+            <div class="metric-key">분기 실적 추세 분석</div>
+          </div>
+          <div class="metric-chip">
+            <span class="metric-val">0회</span>
+            <div class="metric-key">캐시 적중 시 API 호출</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="box">
+            <div class="box-title">주요 기능</div>
+            <ul>
+              <li>회사명·종목코드 검색 (연결/별도 전환)</li>
+              <li>분기 추세 — 매출·영업이익·순이익 + 이익률</li>
+              <li>연간 분석 — 손익 추세·비율·전년 대비 성장률</li>
+              <li>안정성 (부채비율·유동비율·자기자본비율)</li>
+              <li>수익성 (영업이익률·순이익률·ROE·ROA)</li>
+              <li>모든 차트에 대응하는 원본 데이터 표 제공</li>
+            </ul>
+          </div>
+          <div class="box">
+            <div class="box-title">설계 포인트</div>
+            <ul>
+              <li>수집·분석·시각화 3계층 분리 아키텍처</li>
+              <li>parquet 로컬 캐시 — 재조회 시 API 호출 제거</li>
+              <li>IFRS 표준 계정 ID 우선 + 키워드 보완 추출</li>
+              <li>분기 실적: Q4 = 연간 − (Q1+Q2+Q3) 산출</li>
+              <li>삼성전자 연매출 333.6조원과 합계 일치 검증</li>
+              <li>로컬 .env / 배포 Secrets 자동 전환</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="box" style="margin-bottom:1.2rem;">
+          <div class="box-title">분석 파이프라인</div>
+          <div class="arch-flow">
+            <span class="arch-node">DART API</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">OpenDartReader 수집</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">parquet 캐시</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">핵심 계정 추출</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">비율·성장률 계산</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">Plotly 차트</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">Streamlit 대시보드</span>
+          </div>
+        </div>
+
+        <div class="tech-row">
+          <span class="badge badge-blue">Python 3.11</span>
+          <span class="badge badge-purple">Streamlit</span>
+          <span class="badge badge-cyan">Plotly</span>
+          <span class="badge badge-cyan">pandas</span>
+          <span class="badge badge-gray">OpenDartReader</span>
+          <span class="badge badge-blue">DART API</span>
+          <span class="badge badge-gold">parquet 캐싱</span>
+          <span class="badge badge-green">Streamlit Cloud 배포</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Project 6 ── -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-icon pink">🔔</div>
+        <div>
+          <div class="project-num">Project 06</div>
+          <div class="project-name">실시간 뉴스 텔레그램 알림 봇</div>
+          <div class="project-subtitle">국내·해외 20여 개 매체 RSS를 감시해 키워드에 걸린 새 기사를 즉시 텔레그램으로 푸시</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">
+          매일경제·한국경제·연합뉴스·CNBC·MarketWatch·WSJ 등 국내(국장)/해외(미장) 20여 개 매체의 RSS를
+          60초 주기로 감시하고, 종목명·경제지표·지정학 이슈 등 지정한 키워드가 포함된 새 기사만 골라
+          텔레그램으로 실시간 전송하는 봇입니다. 해외 기사는 제목을 한국어로 번역해 원문과 함께 표시하고,
+          전송 기록을 SQLite에 저장해 재시작해도 중복 알림이 발생하지 않습니다.
+          자동 재시작·로그인 시 자동 실행까지 갖춰 24시간 무인 운영됩니다.
+        </p>
+
+        <div class="metrics-row">
+          <div class="metric-chip">
+            <span class="metric-val">20+</span>
+            <div class="metric-key">감시 뉴스 매체 (RSS)</div>
+          </div>
+          <div class="metric-chip">
+            <span class="metric-val">60초</span>
+            <div class="metric-key">뉴스 확인 주기</div>
+          </div>
+          <div class="metric-chip">
+            <span class="metric-val">24시간</span>
+            <div class="metric-key">무인 상시 운영</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="box">
+            <div class="box-title">주요 기능</div>
+            <ul>
+              <li>국내·해외 20여 개 매체 RSS 실시간 감시</li>
+              <li>키워드 필터 — 종목명·경제지표·이슈만 수신</li>
+              <li>해외 기사 제목 한국어 자동 번역</li>
+              <li>속보·단독·FOMC 등 중요 키워드 🔔 강조</li>
+              <li>SQLite 전송 기록 — 재시작에도 중복 방지</li>
+              <li>chat_id 목록 등록으로 다수 동시 수신</li>
+            </ul>
+          </div>
+          <div class="box">
+            <div class="box-title">운영 설계</div>
+            <ul>
+              <li>첫 실행 시 기존 기사 스킵 — 알림 폭탄 방지</li>
+              <li>프로세스 다운 시 5초 후 자동 재시작</li>
+              <li>PC 로그인 시 자동 시작 등록 (원클릭)</li>
+              <li>매체·키워드·주기 전부 YAML 설정으로 관리</li>
+              <li>봇 토큰은 .gitignore 처리 — 저장소 비공개 유지</li>
+              <li>순수 Python + SQLite — 클라우드 VM 이식 용이</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="box" style="margin-bottom:1.2rem;">
+          <div class="box-title">알림 파이프라인</div>
+          <div class="arch-flow">
+            <span class="arch-node">RSS 20+ 매체 폴링</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">키워드 필터</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">중복 체크 (SQLite)</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">해외 기사 번역</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">중요도 강조 표시</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">Telegram 전송</span>
+          </div>
+        </div>
+
+        <div class="tech-row">
+          <span class="badge badge-blue">Python 3</span>
+          <span class="badge badge-pink">Telegram Bot API</span>
+          <span class="badge badge-gray">RSS / feedparser</span>
+          <span class="badge badge-gold">SQLite</span>
+          <span class="badge badge-cyan">자동 번역</span>
+          <span class="badge badge-green">YAML 설정</span>
+          <span class="badge badge-gray">무인 자동 재시작</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
      SKILLS
 ════════════════════════════════════════ -->
 <section>
@@ -1152,6 +1341,10 @@
           <span class="skill-name">Docker</span>
           <div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div>
         </div>
+        <div class="skill-item">
+          <span class="skill-name">Streamlit / Plotly</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div>
+        </div>
       </div>
 
       <div class="skill-group">
@@ -1176,6 +1369,10 @@
           <span class="skill-name">퀀트 스크리닝</span>
           <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div>
         </div>
+        <div class="skill-item">
+          <span class="skill-name">DART 공시·재무제표 분석</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+        </div>
       </div>
 
       <div class="skill-group">
@@ -1199,6 +1396,10 @@
         <div class="skill-item">
           <span class="skill-name">REST API 설계</span>
           <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Telegram Bot 자동화</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div>
         </div>
       </div>
     </div>
@@ -1241,6 +1442,18 @@
               <td>Tavily 검색 (7일 이내)</td>
               <td>AI 요약 자동화 · HTML 이메일</td>
             </tr>
+            <tr>
+              <td class="dot-gold">재무제표 분석</td>
+              <td>Streamlit · Plotly · pandas</td>
+              <td>DART 전자공시 (OpenDartReader)</td>
+              <td>분기 실적 산출 · parquet 캐싱</td>
+            </tr>
+            <tr>
+              <td class="dot-cyan">뉴스 텔레그램 봇</td>
+              <td>Telegram Bot API · SQLite</td>
+              <td>국내·해외 20+ 매체 RSS</td>
+              <td>키워드 필터 · 24시간 무인 운영</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -1254,7 +1467,7 @@
 ════════════════════════════════════════ -->
 <footer id="footer">
   <div class="page">
-    <p>이재욱 · dlwodnr1115@gmail.com · 2026년 6월</p>
+    <p>이재욱 · dlwodnr1115@gmail.com · 2026년 7월</p>
     <p style="margin-top:0.4rem;">Data & Investment Analytics Portfolio — 본 포트폴리오의 모든 프로젝트는 직접 설계·개발한 결과물입니다.</p>
   </div>
 </footer>
